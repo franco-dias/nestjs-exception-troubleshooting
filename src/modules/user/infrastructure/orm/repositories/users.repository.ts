@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
-import { PrismaService } from '@common/services/prisma.service';
 import { Maybe } from '@common/types/maybe';
 import { CreateUserDTO } from '@modules/user/domain/dtos/create-user.dto';
 import { User } from '@modules/user/domain/entities/user.entity';
 import { UsersRepository } from '@modules/user/domain/repositories/users.repository';
+import { PrismaService } from 'src/infrastructure/services/implementations/prisma.service';
 
-/* Simulates an ORM implementation */
 @Injectable()
 class UsersRepositoryImpl implements UsersRepository {
   constructor(private prisma: PrismaService) {}
@@ -33,6 +32,20 @@ class UsersRepositoryImpl implements UsersRepository {
 
   async getById(uuid: string): Promise<Maybe<User>> {
     const user = await this.prisma.user.findUnique({ where: { uuid } });
+    return user;
+  }
+
+  async findByUsername(username: string): Promise<Maybe<User>> {
+    const user = await this.prisma.user.findFirst({
+      where: { username },
+    });
+    return user;
+  }
+
+  async findByEmail(email: string): Promise<Maybe<User>> {
+    const user = await this.prisma.user.findFirst({
+      where: { email },
+    });
     return user;
   }
 

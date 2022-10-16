@@ -2,6 +2,18 @@ import { Customer } from './customer.entity';
 import { Teacher } from './teacher.entity';
 import { VerificationToken } from './verification-token.entity';
 
+export enum CustomerRole {
+  CUSTOMER = 'CUSTOMER',
+  TEACHER = 'TEACHER',
+  ADMIN = 'ADMIN',
+}
+
+export enum CustomerStatus {
+  AWAITING_VERIFICATION = 'AWAITING_VERIFICATION',
+  VERIFIED = 'VERIFIED',
+  INACTIVE = 'INACTIVE',
+}
+
 export class User {
   uuid: string;
   username: string;

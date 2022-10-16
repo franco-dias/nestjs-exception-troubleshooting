@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { TranslationService } from '@common/services/i18n.service';
+import { ServicesModule } from 'src/infrastructure/services/services.module';
 
 import { AuthenticateController } from './authenticate/authenticate.controller';
 import { AuthenticateService } from './authenticate/authenticate.service';
@@ -14,7 +14,7 @@ import { ListUsersService } from './list/list.service';
 import { RepositoriesModule } from '../infrastructure/orm/repositories/repositories.module';
 
 @Module({
-  imports: [RepositoriesModule],
+  imports: [RepositoriesModule, ServicesModule],
   controllers: [
     FindOneController,
     ListUsersController,
@@ -22,7 +22,6 @@ import { RepositoriesModule } from '../infrastructure/orm/repositories/repositor
     AuthenticateController,
   ],
   providers: [
-    TranslationService,
     FindOneService,
     ListUsersService,
     CreateUserService,

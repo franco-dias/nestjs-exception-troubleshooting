@@ -1,7 +1,6 @@
 import { UnauthorizedException } from '@nestjs/common';
-import { Test } from '@nestjs/testing';
 
-import { MockRepositoriesModule } from '@modules/user/domain/repositories/mocks/repositories-mock.module';
+import { createTestingModule } from '@common/test-utils/test-module';
 import { userTestData } from '@modules/user/domain/repositories/mocks/test-data/users';
 
 import { AuthenticateService } from '../authenticate.service';
@@ -9,11 +8,9 @@ import { AuthenticateService } from '../authenticate.service';
 describe('authenticate service', () => {
   let authenticateService: AuthenticateService;
   beforeEach(async () => {
-    const module = await Test.createTestingModule({
-      imports: [MockRepositoriesModule],
+    const module = await createTestingModule({
       providers: [AuthenticateService],
-    }).compile();
-
+    });
     authenticateService = module.get<AuthenticateService>(AuthenticateService);
   });
 

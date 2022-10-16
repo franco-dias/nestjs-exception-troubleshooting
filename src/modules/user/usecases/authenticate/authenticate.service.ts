@@ -1,5 +1,9 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 
+import {
+  EncryptionService,
+  EncryptionServiceToken,
+} from '@common/services/encription-service';
 import { AuthenticateDTO } from '@modules/user/domain/dtos/authenticate.dto';
 import {
   UsersRepository,
@@ -13,6 +17,8 @@ export class AuthenticateService {
   constructor(
     @Inject(UsersRepositoryToken)
     private usersRepository: UsersRepository,
+    @Inject(EncryptionServiceToken)
+    private encryptionService: EncryptionService,
   ) {}
 
   async execute(data: AuthenticateDTO): Promise<AuthenticateResponse> {
@@ -21,7 +27,16 @@ export class AuthenticateService {
       identification,
     );
 
-    if (!user || password !== user.password) {
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials.');
+    }
+
+    const isPasswordCorrect = this.encryptionService.compare(
+      password,
+      user.password,
+    );
+
+    if (!isPasswordCorrect) {
       throw new UnauthorizedException('Invalid credentials.');
     }
 

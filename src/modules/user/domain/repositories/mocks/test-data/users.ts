@@ -1,8 +1,6 @@
 import { v4 as uuid } from 'uuid';
 
-import { User } from '@modules/user/domain/entities/user.entity';
-
-const list: User[] = [
+const list = [
   {
     uuid: uuid(),
     username: 'john.doe',
@@ -25,10 +23,16 @@ const list: User[] = [
   },
 ];
 
-const baseUser: User = {
+const listResponse = list.map((item) => ({
+  ...item,
+  createdAt: item.createdAt.toISOString(),
+  updatedAt: item.updatedAt.toISOString(),
+}));
+
+const baseUser = {
   uuid: uuid(),
-  username: 'john.doe',
-  email: 'john.doe@gmail.com',
+  username: 'john.toe',
+  email: 'john.toe@gmail.com',
   password: 'somerandompassword',
   status: 'VERIFIED',
   role: 'TEACHER',
@@ -38,5 +42,6 @@ const baseUser: User = {
 
 export const userTestData = {
   list,
+  listResponse,
   baseUser,
 };

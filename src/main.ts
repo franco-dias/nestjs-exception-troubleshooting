@@ -10,9 +10,9 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
 
   const config = new DocumentBuilder()
-    .setTitle('Api name')
+    .setTitle('Norfit API')
     .addBearerAuth()
-    .setDescription('Some description for the API')
+    .setDescription('Norfit app API specification')
     .setVersion('1.0')
     .build();
 

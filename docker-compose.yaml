@@ -1,18 +1,18 @@
 version: "1.0"
 
 services:
-  api_db:
+  norfit_db:
     image: postgres:14.2-alpine
-    container_name: api_db
+    container_name: norfit_db
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: docker
-      POSTGRES_DB: prisma_test
+      POSTGRES_DB: norfit_db
     ports:
       - "5432:5432"
     expose:
       - "5432"
     volumes: 
-      - prisma_test:/var/lib/postgresql/data
+      - norfit_db:/var/lib/postgresql/data
 volumes:
-  prisma_test:
+  norfit_db:

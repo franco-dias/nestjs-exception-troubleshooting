@@ -21,6 +21,7 @@
       "@modules/*": ["src/modules/*"],
       "@common/*": ["src/common/*"],
       "@pipes/*": ["src/common/pipes/*"],
+      "@infrastructure/*": ["src/infrastructure/*"]
     }
   }
 }
