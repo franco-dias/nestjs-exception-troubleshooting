@@ -1,0 +1,20 @@
+{
+	"usecases": {
+		"authenticate": {
+			"errors": {
+				"invalid_credentials": "Invalid credentials."
+			}
+		},
+		"create_user": {
+			"errors": {
+				"username_taken": "Username already taken.",
+				"email_taken": "Email already taken."
+			}
+		},
+		"find_one": {
+			"errors": {
+				"not_found": "User not found."
+			}
+		}
+	}
+}

@@ -46,6 +46,10 @@ describe('authenticate service', () => {
         identification: 'dummy.username',
         password: '12345678',
       });
-    }).rejects.toEqual(new UnauthorizedException('Invalid credentials.'));
+    }).rejects.toEqual(
+      new UnauthorizedException(
+        'user.usecases.authenticate.errors.invalid_credentials',
+      ),
+    );
   });
 });

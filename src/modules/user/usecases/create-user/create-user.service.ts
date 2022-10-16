@@ -5,6 +5,10 @@ import {
   EncryptionServiceToken,
 } from '@common/services/encription-service';
 import {
+  TranslationService,
+  TranslationServiceToken,
+} from '@common/services/translation-service';
+import {
   UsersRepository,
   UsersRepositoryToken,
 } from '@modules/user/domain/repositories/users.repository';
@@ -19,6 +23,8 @@ export class CreateUserService {
     private usersRepository: UsersRepository,
     @Inject(EncryptionServiceToken)
     private encryptionService: EncryptionService,
+    @Inject(TranslationServiceToken)
+    private translationService: TranslationService,
   ) {}
 
   async execute(data: CreateUserDTO): Promise<User> {
@@ -26,12 +32,20 @@ export class CreateUserService {
     const emailExists = await this.usersRepository.findByEmail(email);
 
     if (emailExists) {
-      throw new BadRequestException('Email already taken.');
+      throw new BadRequestException(
+        await this.translationService.translate(
+          'user.usecases.create_user.errors.email_taken',
+        ),
+      );
     }
 
     const usernameExists = await this.usersRepository.findByUsername(username);
     if (usernameExists) {
-      throw new BadRequestException('Username already taken.');
+      throw new BadRequestException(
+        await this.translationService.translate(
+          'user.usecases.create_user.errors.username_taken',
+        ),
+      );
     }
 
     const hashedPassword = this.encryptionService.encrypt(password);

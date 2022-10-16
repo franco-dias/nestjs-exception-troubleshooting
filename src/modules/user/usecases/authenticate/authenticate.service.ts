@@ -1,9 +1,15 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 
+import { jwtConfig } from '@common/jwt/constants';
 import {
   EncryptionService,
   EncryptionServiceToken,
 } from '@common/services/encription-service';
+import {
+  TranslationService,
+  TranslationServiceToken,
+} from '@common/services/translation-service';
 import { AuthenticateDTO } from '@modules/user/domain/dtos/authenticate.dto';
 import {
   UsersRepository,
@@ -19,6 +25,9 @@ export class AuthenticateService {
     private usersRepository: UsersRepository,
     @Inject(EncryptionServiceToken)
     private encryptionService: EncryptionService,
+    @Inject(TranslationServiceToken)
+    private translationService: TranslationService,
+    private jwtService: JwtService,
   ) {}
 
   async execute(data: AuthenticateDTO): Promise<AuthenticateResponse> {
@@ -28,7 +37,11 @@ export class AuthenticateService {
     );
 
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials.');
+      throw new UnauthorizedException(
+        await this.translationService.translate(
+          'user.usecases.authenticate.errors.invalid_credentials',
+        ),
+      );
     }
 
     const isPasswordCorrect = this.encryptionService.compare(
@@ -37,13 +50,22 @@ export class AuthenticateService {
     );
 
     if (!isPasswordCorrect) {
-      throw new UnauthorizedException('Invalid credentials.');
+      throw new UnauthorizedException(
+        await this.translationService.translate(
+          'user.usecases.authenticate.errors.invalid_credentials',
+        ),
+      );
     }
 
     const { username, email, customer, teacher } = user;
 
+    const token = this.jwtService.sign(
+      { username, sub: user.uuid },
+      jwtConfig as JwtSignOptions,
+    );
+
     return {
-      token: 'Bearer test',
+      token: `Bearer ${token}`,
       user: {
         username,
         email,

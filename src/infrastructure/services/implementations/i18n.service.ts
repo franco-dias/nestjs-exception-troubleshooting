@@ -4,7 +4,10 @@ import { I18nService as I18nServiceBase, TranslateOptions } from 'nestjs-i18n';
 
 import { TranslationService } from '@common/services/translation-service';
 
-type RequestType = { headers: { [key: string]: string } };
+type RequestType = {
+  headers: { [key: string]: string };
+  query: { [key: string]: string };
+};
 
 @Injectable()
 export class I18nService implements TranslationService {
@@ -14,9 +17,10 @@ export class I18nService implements TranslationService {
   ) {}
 
   async translate(key: string, options?: TranslateOptions): Promise<string> {
+    const { headers, query } = this.request;
     const translation = await this.i18n.t(key, {
       ...options,
-      lang: this.request.headers.lang,
+      lang: query?.lang ?? headers?.lang,
     });
     return translation;
   }

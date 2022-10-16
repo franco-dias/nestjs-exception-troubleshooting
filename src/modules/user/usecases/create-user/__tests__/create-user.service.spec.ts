@@ -28,7 +28,9 @@ describe('create user service', () => {
 
     expect(async () => {
       await createUserService.execute(baseUser);
-    }).rejects.toEqual(new BadRequestException('Email already taken.'));
+    }).rejects.toEqual(
+      new BadRequestException('user.usecases.create_user.errors.email_taken'),
+    );
   });
 
   it('should not be able to create an user with existing username', async () => {
@@ -38,6 +40,10 @@ describe('create user service', () => {
         ...baseUser,
         email: 'random.different.email@domain.com',
       });
-    }).rejects.toEqual(new BadRequestException('Username already taken.'));
+    }).rejects.toEqual(
+      new BadRequestException(
+        'user.usecases.create_user.errors.username_taken',
+      ),
+    );
   });
 });
