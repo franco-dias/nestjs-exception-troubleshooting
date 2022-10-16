@@ -9,6 +9,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalFilters(new HttpExceptionFilter());
 
+  app.enableCors({
+    origin: '*',
+  });
+
   const config = new DocumentBuilder()
     .setTitle('Norfit API')
     .addBearerAuth()
@@ -19,7 +23,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config, {
     operationIdFactory: (_, method: string) => method,
   });
+
   SwaggerModule.setup('api', app, document);
+
   await app.listen(3000);
 }
 bootstrap();
