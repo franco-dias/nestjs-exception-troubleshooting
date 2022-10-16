@@ -35,6 +35,15 @@ class UsersRepositoryImpl implements UsersRepository {
     const user = await this.prisma.user.findUnique({ where: { uuid } });
     return user;
   }
+
+  async findByUsernameOrEmail(identification: string) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        OR: [{ username: identification }, { email: identification }],
+      },
+    });
+    return user;
+  }
 }
 
 export { UsersRepositoryImpl };

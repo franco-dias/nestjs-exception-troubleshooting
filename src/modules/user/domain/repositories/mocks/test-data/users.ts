@@ -25,6 +25,18 @@ const list: User[] = [
   },
 ];
 
+const baseUser: User = {
+  uuid: uuid(),
+  username: 'john.doe',
+  email: 'john.doe@gmail.com',
+  password: 'somerandompassword',
+  status: 'VERIFIED',
+  role: 'TEACHER',
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
+
 export const userTestData = {
   list,
+  baseUser,
 };

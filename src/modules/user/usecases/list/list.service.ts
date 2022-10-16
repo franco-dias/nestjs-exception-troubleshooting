@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { TranslationService } from '@common/services/i18n.service';
 import {
   UsersRepository,
   UsersRepositoryToken,
@@ -11,7 +10,6 @@ export class ListUsersService {
   constructor(
     @Inject(UsersRepositoryToken)
     private usersRepository: UsersRepository,
-    private translationService: TranslationService,
   ) {}
 
   async execute() {

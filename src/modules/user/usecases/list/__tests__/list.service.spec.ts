@@ -1,5 +1,6 @@
 import { Test } from '@nestjs/testing';
 
+import { TranslationService } from '@common/services/test-services/i18n.service';
 import { MockRepositoriesModule } from '@modules/user/domain/repositories/mocks/repositories-mock.module';
 import { userTestData } from '@modules/user/domain/repositories/mocks/test-data/users';
 
@@ -12,7 +13,7 @@ describe('ListUsers service', () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       imports: [MockRepositoriesModule],
-      providers: [ListUsersService],
+      providers: [ListUsersService, TranslationService],
     }).compile();
 
     listUsersService = module.get<ListUsersService>(ListUsersService);

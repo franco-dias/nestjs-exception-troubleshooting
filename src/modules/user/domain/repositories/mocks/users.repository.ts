@@ -25,6 +25,12 @@ class MockUsersRepository implements UsersRepository {
   async getById(uuid: string): Promise<Maybe<User>> {
     return this.users.find((user) => user.uuid === uuid);
   }
+
+  async findByUsernameOrEmail(identification: string): Promise<User> {
+    return this.users.find((user) =>
+      [user.username, user.email].includes(identification),
+    );
+  }
 }
 
 export { MockUsersRepository };

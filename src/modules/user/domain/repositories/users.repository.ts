@@ -9,4 +9,5 @@ export interface UsersRepository {
   list(): Promise<User[]>;
   create(data: CreateUserDTO): Promise<User>;
   getById(uuid: string): Promise<Maybe<User>>;
+  findByUsernameOrEmail(identification: string): Promise<Maybe<User>>;
 }

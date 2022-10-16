@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 
 import { TranslationService } from '@common/services/i18n.service';
 
+import { AuthenticateController } from './authenticate/authenticate.controller';
+import { AuthenticateService } from './authenticate/authenticate.service';
 import { CreateUserController } from './create-user/create-user.controller';
 import { CreateUserService } from './create-user/create-user.service';
 import { FindOneController } from './find-one/find-one.controller';
@@ -13,12 +15,18 @@ import { RepositoriesModule } from '../infrastructure/orm/repositories/repositor
 
 @Module({
   imports: [RepositoriesModule],
-  controllers: [FindOneController, ListUsersController, CreateUserController],
+  controllers: [
+    FindOneController,
+    ListUsersController,
+    CreateUserController,
+    AuthenticateController,
+  ],
   providers: [
     TranslationService,
     FindOneService,
     ListUsersService,
     CreateUserService,
+    AuthenticateService,
   ],
 })
 export class UseCasesModule {}
