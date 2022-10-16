@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param, ParseUUIDPipe } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { FindOneService } from './find-one.service';
@@ -9,7 +9,7 @@ export class FindOneController {
   constructor(private findOneService: FindOneService) {}
 
   @Get('/:id')
-  findUserById(@Param('id', ParseIntPipe) userId: number) {
-    return this.findOneService.execute(userId);
+  findUserById(@Param('id', ParseUUIDPipe) uuid: string) {
+    return this.findOneService.execute(uuid);
   }
 }

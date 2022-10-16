@@ -1,6 +1,34 @@
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
+  uuid               String              @id @default(uuid())
+  username           String              @unique
+  email              String              @unique
+  password           String
+  status             String              @default("PENDING_VERIFICATION")
+  role               String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  customer           Customer?
+  teacher            Teacher?
+  verificationTokens VerificationToken[]
+}
+
+model Customer {
+  uuid     String @id @default(uuid())
   name     String
-  password String
+  userUUID String @unique
+  user     User   @relation(fields: [userUUID], references: [uuid])
+}
+
+model Teacher {
+  uuid     String @id @default(uuid())
+  name     String
+  userUUID String @unique
+  user     User   @relation(fields: [userUUID], references: [uuid])
+}
+
+model VerificationToken {
+  uuid     String @id @default(uuid())
+  content  String
+  userUUID String
+  user     User   @relation(fields: [userUUID], references: [uuid])
 }

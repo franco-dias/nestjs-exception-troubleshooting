@@ -17,10 +17,13 @@ class UsersRepositoryImpl implements UsersRepository {
   }
 
   async create(data: CreateUserDTO): Promise<User> {
-    const { email, name, password } = data;
     try {
       const user = await this.prisma.user.create({
-        data: { email, name, password },
+        data: {
+          ...data,
+          status: 'PENDING_VERIFICATION',
+          role: data.role ?? 'CUSTOMER',
+        },
       });
       return user;
     } catch (e) {
@@ -28,8 +31,8 @@ class UsersRepositoryImpl implements UsersRepository {
     }
   }
 
-  async getById(id: number): Promise<Maybe<User>> {
-    const user = await this.prisma.user.findUnique({ where: { id } });
+  async getById(uuid: string): Promise<Maybe<User>> {
+    const user = await this.prisma.user.findUnique({ where: { uuid } });
     return user;
   }
 }

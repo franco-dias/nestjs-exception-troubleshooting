@@ -12,7 +12,7 @@ export class FindOneService {
     private usersRepository: UsersRepositoryImpl,
   ) {}
 
-  async execute(id: number): Promise<Maybe<User>> {
+  async execute(id: string): Promise<Maybe<User>> {
     const user = await this.usersRepository.getById(id);
     if (!user) {
       throw new NotFoundException('User not found');

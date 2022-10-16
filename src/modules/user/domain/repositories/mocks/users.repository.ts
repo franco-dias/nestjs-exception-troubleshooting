@@ -15,15 +15,15 @@ class MockUsersRepository implements UsersRepository {
   }
 
   async create(data: CreateUserDTO): Promise<User> {
-    const { email, name, password } = data;
+    const { email, username, password } = data;
     const user = new User();
-    Object.assign(user, { name, email, password, id: uuid() });
+    Object.assign(user, { username, email, password, id: uuid() });
     this.users.push(user);
     return user;
   }
 
-  async getById(id: number): Promise<Maybe<User>> {
-    return this.users.find((user) => user.id === id);
+  async getById(uuid: string): Promise<Maybe<User>> {
+    return this.users.find((user) => user.uuid === uuid);
   }
 }
 

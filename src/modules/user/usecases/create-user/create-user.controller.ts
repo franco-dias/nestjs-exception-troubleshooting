@@ -1,5 +1,5 @@
 import { Body, Controller, Post, UsePipes } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 import { PayloadValidatorPipe } from '@common/pipes/payload-validator.pipe';
 
@@ -16,7 +16,6 @@ export class CreateUserController {
 
   @Post('/')
   @UsePipes(new PayloadValidatorPipe(createUserSchema))
-  @ApiBearerAuth()
   @ApiBody(apiBody)
   createUser(@Body() data: CreateUserDTO) {
     const user = this.createUserService.execute(data);

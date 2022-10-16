@@ -9,8 +9,36 @@ generator client {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
+  uuid               String              @id @default(uuid())
+  username           String              @unique
+  email              String              @unique
+  password           String
+  status             String              @default("PENDING_VERIFICATION")
+  role               String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  customer           Customer?           @relation(name: "CustomerToUser")
+  teacher            Teacher?            @relation(name: "TeacherToUser")
+  verificationTokens VerificationToken[] @relation(name: "UserToVerificationToken")
+}
+
+model Customer {
+  uuid     String @id @default(uuid())
   name     String
-  password String
+  userUUID String @unique
+  user     User   @relation(name: "CustomerToUser", fields: [userUUID], references: [uuid])
+}
+
+model Teacher {
+  uuid     String @id @default(uuid())
+  name     String
+  userUUID String @unique
+  user     User   @relation(name: "TeacherToUser", fields: [userUUID], references: [uuid])
+}
+
+model VerificationToken {
+  uuid     String @id @default(uuid())
+  content  String
+  userUUID String
+  user     User   @relation(name: "UserToVerificationToken", fields: [userUUID], references: [uuid])
 }
