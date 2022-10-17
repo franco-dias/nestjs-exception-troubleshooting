@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 
 import { ServicesModule } from 'src/infrastructure/services/services.module';
 
@@ -23,7 +22,6 @@ import { RepositoriesModule } from '../infrastructure/orm/repositories/repositor
     AuthenticateController,
   ],
   providers: [
-    JwtService,
     FindOneService,
     ListUsersService,
     CreateUserService,

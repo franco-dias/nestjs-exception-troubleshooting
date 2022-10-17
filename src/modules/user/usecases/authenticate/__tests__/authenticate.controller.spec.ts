@@ -27,12 +27,13 @@ describe('ListUsers controller', () => {
       .post('/authenticate')
       .send({ identification: username, password })
       .expect(200)
-      .expect({
-        token: 'Bearer test',
-        user: {
+      .expect(({ body }) => {
+        const { token, user } = body;
+        expect(token).toBeDefined();
+        expect(user).toEqual({
           username,
           email,
-        },
+        });
       });
   });
 });

@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 
 import { EncryptionServiceToken } from '@common/services/encription-service';
+import { TokenServiceToken } from '@common/services/token-service';
 import { TranslationServiceToken } from '@common/services/translation-service';
 
 import { BcryptService } from './implementations/bcrypt.service';
@@ -25,8 +27,13 @@ const EncryptionService = {
   provide: EncryptionServiceToken,
 };
 
+const TokenService = {
+  useClass: JwtService,
+  provide: TokenServiceToken,
+};
+
 @Module({
-  providers: [ORMService, TranslationService, EncryptionService],
-  exports: [TranslationService, EncryptionService],
+  providers: [ORMService, TranslationService, EncryptionService, TokenService],
+  exports: [TranslationService, EncryptionService, TokenService],
 })
 export class ServicesModule {}

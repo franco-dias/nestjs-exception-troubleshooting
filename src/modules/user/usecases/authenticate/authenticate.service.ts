@@ -1,11 +1,15 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService, JwtSignOptions } from '@nestjs/jwt';
+import { JwtSignOptions } from '@nestjs/jwt';
 
 import { jwtConfig } from '@common/jwt/constants';
 import {
   EncryptionService,
   EncryptionServiceToken,
 } from '@common/services/encription-service';
+import {
+  TokenService,
+  TokenServiceToken,
+} from '@common/services/token-service';
 import {
   TranslationService,
   TranslationServiceToken,
@@ -27,7 +31,8 @@ export class AuthenticateService {
     private encryptionService: EncryptionService,
     @Inject(TranslationServiceToken)
     private translationService: TranslationService,
-    private jwtService: JwtService,
+    @Inject(TokenServiceToken)
+    private jwtService: TokenService,
   ) {}
 
   async execute(data: AuthenticateDTO): Promise<AuthenticateResponse> {
@@ -59,10 +64,7 @@ export class AuthenticateService {
 
     const { username, email, customer, teacher } = user;
 
-    const token = this.jwtService.sign(
-      { username, sub: user.uuid },
-      jwtConfig as JwtSignOptions,
-    );
+    const token = this.jwtService.sign({ username, sub: user.uuid }, jwtConfig);
 
     return {
       token: `Bearer ${token}`,
